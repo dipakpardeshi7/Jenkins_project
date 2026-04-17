@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <style>
+    :root {
+      --bg-start: #f4f7fb;
+      --bg-end: #dce8ff;
+      --panel: rgba(255, 255, 255, 0.9);
+      --panel-border: rgba(121, 145, 255, 0.18);
+      --text-main: #1a2440;
+      --text-muted: #66708a;
+      --accent: #2f6bff;
+      --accent-dark: #1d4ed8;
+      --error-bg: #ffe8e8;
+      --error-text: #b42318;
+      --input-border: #d4dbeb;
+      --shadow: 0 24px 60px rgba(47, 107, 255, 0.16);
+      --success: #0f9d58;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at top left, rgba(47, 107, 255, 0.18), transparent 30%),
+        linear-gradient(135deg, var(--bg-start), var(--bg-end));
+    }
+
+    .login-card {
+      width: min(100%, 420px);
+      padding: 36px 32px;
+      border: 1px solid var(--panel-border);
+      border-radius: 24px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(47, 107, 255, 0.1);
+      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--input-border);
+      border-radius: 14px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      background: #ffffff;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(47, 107, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .field-error {
+      min-height: 18px;
+      color: var(--error-text);
+      font-size: 0.88rem;
+    }
+
+    .message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: var(--error-bg);
+      color: var(--error-text);
+    }
+
+    .message.success {
+      background: rgba(15, 157, 88, 0.12);
+      color: var(--success);
+    }
+
+    button {
+      margin-top: 6px;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 16px 32px rgba(47, 107, 255, 0.25);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 36px rgba(47, 107, 255, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .helper-text {
+      margin: 22px 0 0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .helper-text strong {
+      color: var(--text-main);
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 28px 20px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="login-card">
+    <div class="badge">Secure Access</div>
+    <h1>Login to Continue</h1>
+    <p class="subtitle">Use the admin credentials to access the landing page.</p>
+
+    <div class="message error" id="formMessage" aria-live="polite"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email">
+        <span class="field-error" id="emailError"></span>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password">
+        <span class="field-error" id="passwordError"></span>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p class="helper-text">
+      Demo credentials:
+      <strong>admin@gmail.com</strong> /
+      <strong>123456</strong>
+    </p>
+  </main>
+
+  <script>
+    const defaultCredentials = {
+      email: "admin@gmail.com",
+      password: "123456"
+    };
+
+    const loginForm = document.getElementById("loginForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const formMessage = document.getElementById("formMessage");
+
+    function isValidEmail(email) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailPattern.test(email);
+    }
+
+    function clearErrors() {
+      emailError.textContent = "";
+      passwordError.textContent = "";
+      formMessage.textContent = "";
+      formMessage.className = "message error";
+    }
+
+    function showMessage(message, type) {
+      formMessage.textContent = message;
+      formMessage.className = "message show " + type;
+    }
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      clearErrors();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      let isFormValid = true;
+
+      if (email === "") {
+        emailError.textContent = "Email is required.";
+        isFormValid = false;
+      } else if (!isValidEmail(email)) {
+        emailError.textContent = "Please enter a valid email address.";
+        isFormValid = false;
+      }
+
+      if (password === "") {
+        passwordError.textContent = "Password is required.";
+        isFormValid = false;
+      }
+
+      if (!isFormValid) {
+        showMessage("Please fix the errors before logging in.", "error");
+        return;
+      }
+
+      if (email === defaultCredentials.email && password === defaultCredentials.password) {
+        localStorage.setItem("isAdminLoggedIn", "true");
+        localStorage.setItem("adminEmail", email);
+        showMessage("Login successful. Redirecting...", "success");
+
+        setTimeout(function () {
+          window.location.href = "landing.html";
+        }, 700);
+      } else {
+        showMessage("Invalid email or password", "error");
+      }
+    });
+  </script>
+</body>
+</html>
